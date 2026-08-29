@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>白天 / 黑夜 主题切换</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 44px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+    background: #eef3f9;
+    transition: background 0.7s ease, color 0.7s ease;
+    color: #2c3e50;
+  }
+  body.night {
+    background: #0a0f1f;
+    color: #d7dee8;
+  }
+
+  h1 { font-size: 20px; letter-spacing: 2px; opacity: 0.8; font-weight: 500; }
+
+  .toggle {
+    position: relative;
+    width: 200px;
+    height: 90px;
+    border-radius: 90px;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    outline: none;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4a90d9 0%, #6fb0ee 55%, #9bcbf5 100%);
+    transition: background 0.7s ease, box-shadow 0.5s ease, border-color 0.5s ease, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.15), 0 10px 28px rgba(74, 144, 217, 0.32), inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .toggle.night {
+    background: linear-gradient(135deg, #070d1c 0%, #111a30 55%, #1c2a48 100%);
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 40px rgba(96, 165, 250, 0.07), 0 10px 28px rgba(7, 13, 28, 0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .toggle:hover {
+    transform: scale(1.07);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 60px rgba(59, 130, 246, 0.25), 0 12px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.25);
+    transition: background 0.7s ease, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.3s ease;
+  }
+  .toggle.night:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 0 70px rgba(96, 165, 250, 0.12), 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .toggle:active {
+    transform: scale(1.03);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.10), 0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255,255,255,0.2);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+  .toggle.night:active {
+    border-color: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 30px rgba(96, 165, 250, 0.05), 0 4px 16px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .sun {
+    position: absolute;
+    top: 14px;
+    right: 26px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff5c0, #ffd84d 70%, #ffc107);
+    box-shadow: 0 0 14px rgba(255, 216, 77, 0.85), 0 0 30px rgba(255, 193, 7, 0.55), 0 0 50px rgba(255, 179, 0, 0.3);
+    animation: sunGlow 3s ease-in-out infinite;
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  @keyframes sunGlow {
+    0%, 100% { transform: scale(1);   box-shadow: 0 0 14px rgba(255,216,77,.85), 0 0 30px rgba(255,193,7,.55), 0 0 50px rgba(255,179,0,.3); }
+    50%      { transform: scale(1.07); box-shadow: 0 0 20px rgba(255,216,77,1),   0 0 42px rgba(255,193,7,.7),  0 0 68px rgba(255,179,0,.4); }
+  }
+  .toggle.night .sun { opacity: 0; transform: scale(0.5); }
+
+  .cloud {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.07);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    z-index: 1;
+  }
+
+  .cloud1 { right: 28px; top: 46px; width: 40px; height: 18px; }
+  .cloud1::before { content:""; position:absolute; left:6px;  top:-8px;  width:17px; height:17px; background:#fff; border-radius:50%; }
+  .cloud1::after  { content:""; position:absolute; left:19px; top:-10px; width:15px; height:15px; background:#fff; border-radius:50%; }
+
+  .cloud2 { left: 84px; top: 30px; width: 30px; height: 14px; }
+  .cloud2::before { content:""; position:absolute; left:4px;  top:-6px;  width:12px; height:12px; background:#fff; border-radius:50%; }
+  .cloud2::after  { content:""; position:absolute; left:13px; top:-8px; width:12px; height:12px; background:#fff; border-radius:50%; }
+
+  .toggle.night .cloud { opacity: 0; transform: translateY(8px); }
+
+  .moon {
+    position: absolute;
+    top: 12px;
+    left: 22px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+
+    background: radial-gradient(circle at 34% 32%, #ffffff 0%, #fff6d9 55%, #f2e3a8 100%);
+    box-shadow: 0 0 12px rgba(255, 235, 170, 0.95), 0 0 26px rgba(255, 225, 140, 0.6), inset 0 0 6px rgba(220, 200, 140, 0.25);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .toggle.night .moon { opacity: 1; transform: scale(1); }
+
+  .star {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle 2.2s ease-in-out infinite;
+    transition: opacity 0.5s ease;
+    z-index: 2;
+  }
+  .toggle.night .star { opacity: 1; }
+  .star.s1 { top: 20px; left: 64px;  animation-delay: 0s; }
+  .star.s2 { top: 38px; left: 104px; animation-delay: 0.4s; }
+  .star.s3 { top: 16px; left: 134px; animation-delay: 0.8s; }
+  .star.s4 { top: 46px; left: 52px;  animation-delay: 1.2s; }
+  .star.s5 { top: 28px; left: 162px; animation-delay: 0.6s; }
+  .star.s6 { top: 54px; left: 124px; animation-delay: 1.6s; }
+  .star.s7 { top: 22px; left: 90px;  animation-delay: 1.0s; }
+  .star.s8 { top: 50px; left: 158px; animation-delay: 0.3s; }
+
+  @keyframes twinkle {
+    0%, 100% { transform: scale(1);   opacity: 1; }
+    50%      { transform: scale(1.7); opacity: 0.35; }
+  }
+
+  .knob {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #ffe7a0, #f0d080 60%, #e2bf6a);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.26), inset 0 -3px 6px rgba(0,0,0,0.09), inset 0 2px 4px rgba(255,255,255,0.5);
+    transition: transform 0.55s cubic-bezier(0.68, -0.1, 0.265, 1.2), background 0.55s ease, box-shadow 0.55s ease;
+    z-index: 10;
+  }
+  .toggle.night .knob {
+    transform: translateX(110px);
+    background: linear-gradient(160deg, #e4e4e4, #c8c8c8 60%, #b3b3b3);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.42), inset 0 -3px 6px rgba(0,0,0,0.12), inset 0 2px 4px rgba(255,255,255,0.4);
+  }
+
+  .status { font-size: 13px; opacity: 0.65; letter-spacing: 3px; }
+</style>
+</head>
+<body>
+  <h1>白天 / 黑夜 主题切换</h1>
+
+  <button class="toggle" id="toggle" aria-label="切换白天/黑夜模式">
+
+    <span class="sun"></span>
+
+    <span class="cloud cloud1"></span>
+    <span class="cloud cloud2"></span>
+
+    <span class="moon"></span>
+
+    <span class="star s1"></span>
+    <span class="star s2"></span>
+    <span class="star s3"></span>
+    <span class="star s4"></span>
+    <span class="star s5"></span>
+    <span class="star s6"></span>
+    <span class="star s7"></span>
+    <span class="star s8"></span>
+
+    <span class="knob"></span>
+  </button>
+
+  <div class="status" id="status">当前模式：白天</div>
+
+<script>
+  const toggle = document.getElementById('toggle');
+  const status = document.getElementById('status');
+  let isNight = false;
+
+  toggle.addEventListener('click', () => {
+    isNight = !isNight;
+    toggle.classList.toggle('night', isNight);
+    document.body.classList.toggle('night', isNight);
+    status.textContent = isNight ? '当前模式：黑夜' : '当前模式：白天';
+  });
+</script>
+</body>
+</html>
