@@ -11,6 +11,13 @@
 | `按钮-左右移动.html` | 月相动画（左右移动） | 遮挡球左右移动模拟月相变化 |
 | `按钮-折弯移动.html` | 月相动画（折线路径） | 遮挡球沿折线路径循环，月相更丰富 |
 
+## 效果预览
+
+| 白天模式 | 黑夜模式 |
+| --- | --- |
+| ![白天模式 1](screenshots/preview-day-1.png) | ![黑夜模式 1](screenshots/preview-night-1.png) |
+| ![白天模式 2](screenshots/preview-day-2.png) | ![黑夜模式 2](screenshots/preview-night-2.png) |
+
 ## 功能特性
 
 - 点击按钮在「白天 / 黑夜」主题间切换，页面背景与按钮同步变化
