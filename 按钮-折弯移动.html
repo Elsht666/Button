@@ -103,7 +103,7 @@
         background: #fff;
         border-radius: calc(14px * var(--ts));
         opacity: 0.9;
-        transition: opacity 0.5s;
+        transition: opacity 0.5s, transform 0.5s;
     }
     .cloud::before, .cloud::after {
         content: '';
@@ -142,7 +142,7 @@
         top: calc(-9px * var(--ts));
         left: calc(10px * var(--ts));
     }
-    .toggle.night .cloud { opacity: 0; }
+    .toggle.night .cloud { opacity: 0; transform: translateY(calc(8px * var(--ts))); }
 
     .star {
         position: absolute;
