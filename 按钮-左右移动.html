@@ -39,7 +39,7 @@
             background: linear-gradient(135deg, #4a90d9, #6fb0ee, #9bcbf5);
             transition: background 0.7s, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 box-shadow 0.5s ease, border-color 0.5s ease;
-            overflow: visible;
+            overflow: hidden;
 
             border: 2px solid rgba(255, 255, 255, 0.25);
             box-shadow:
@@ -113,13 +113,12 @@
 
         .cloud {
             position: absolute;
-            z-index: 1;
-            width: calc(28px * var(--ts));
-            height: calc(14px * var(--ts));
+            left: 0;
             background: #fff;
-            border-radius: calc(14px * var(--ts));
-            opacity: 0.9;
-            transition: opacity 0.5s, transform 0.5s;
+            border-radius: 999px;
+            transition: opacity 0.55s ease;
+            z-index: 1;
+            pointer-events: none;
         }
         .cloud::before,
         .cloud::after {
@@ -128,44 +127,27 @@
             background: #fff;
             border-radius: 50%;
         }
-        .cloud::before {
-            width: calc(14px * var(--ts));
-            height: calc(14px * var(--ts));
-            top: calc(-8px * var(--ts));
-            left: calc(5px * var(--ts));
+        .cloud1 { width: calc(40px * var(--ts)); height: calc(18px * var(--ts)); top: 12%; }
+        .cloud1::before { width: calc(22px * var(--ts)); height: calc(22px * var(--ts)); top: calc(-11px * var(--ts)); left: calc(4px * var(--ts)); }
+        .cloud1::after  { width: calc(28px * var(--ts)); height: calc(28px * var(--ts)); top: calc(-14px * var(--ts)); right: calc(4px * var(--ts)); }
+        .cloud2 { width: calc(32px * var(--ts)); height: calc(14px * var(--ts)); top: 52%; }
+        .cloud2::before { width: calc(18px * var(--ts)); height: calc(18px * var(--ts)); top: calc(-9px * var(--ts)); left: calc(3px * var(--ts)); }
+        .cloud2::after  { width: calc(22px * var(--ts)); height: calc(22px * var(--ts)); top: calc(-11px * var(--ts)); right: calc(3px * var(--ts)); }
+        .cloud3 { width: calc(46px * var(--ts)); height: calc(20px * var(--ts)); top: 32%; }
+        .cloud3::before { width: calc(26px * var(--ts)); height: calc(26px * var(--ts)); top: calc(-13px * var(--ts)); left: calc(5px * var(--ts)); }
+        .cloud3::after  { width: calc(32px * var(--ts)); height: calc(32px * var(--ts)); top: calc(-16px * var(--ts)); right: calc(5px * var(--ts)); }
+        .cloud4 { width: calc(28px * var(--ts)); height: calc(12px * var(--ts)); top: 64%; }
+        .cloud4::before { width: calc(16px * var(--ts)); height: calc(16px * var(--ts)); top: calc(-8px * var(--ts)); left: calc(3px * var(--ts)); }
+        .cloud4::after  { width: calc(20px * var(--ts)); height: calc(20px * var(--ts)); top: calc(-10px * var(--ts)); right: calc(3px * var(--ts)); }
+        .cloud1 { animation: drift 20s linear infinite; animation-delay: 0s; }
+        .cloud2 { animation: drift 28s linear infinite; animation-delay: -10s; }
+        .cloud3 { animation: drift 24s linear infinite; animation-delay: -16s; }
+        .cloud4 { animation: drift 16s linear infinite; animation-delay: -6s; }
+        @keyframes drift {
+            0%   { transform: translateX(calc(270px * var(--ts))); }
+            100% { transform: translateX(calc(-90px * var(--ts))); }
         }
-        .cloud::after {
-            width: calc(18px * var(--ts));
-            height: calc(18px * var(--ts));
-            top: calc(-11px * var(--ts));
-            left: calc(11px * var(--ts));
-        }
-        .cloud1 {
-            right: calc(28px * var(--ts));
-            top: calc(52px * var(--ts));
-        }
-        .cloud2 {
-            left: calc(92px * var(--ts));
-            top: calc(36px * var(--ts));
-            width: calc(24px * var(--ts));
-            height: calc(12px * var(--ts));
-        }
-        .cloud2::before {
-            width: calc(12px * var(--ts));
-            height: calc(12px * var(--ts));
-            top: calc(-6px * var(--ts));
-            left: calc(4px * var(--ts));
-        }
-        .cloud2::after {
-            width: calc(15px * var(--ts));
-            height: calc(15px * var(--ts));
-            top: calc(-9px * var(--ts));
-            left: calc(10px * var(--ts));
-        }
-        .toggle.night .cloud {
-            opacity: 0;
-            transform: translateY(calc(8px * var(--ts)));
-        }
+        .toggle.night .cloud { opacity: 0; }
 
         .star {
             position: absolute;
@@ -296,6 +278,8 @@
         <div class="sun"></div>
         <div class="cloud cloud1"></div>
         <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
         <span class="moon"></span>
         <span class="star"></span><span class="star"></span><span class="star"></span>
         <span class="star"></span><span class="star"></span><span class="star"></span>
